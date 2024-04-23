@@ -14,8 +14,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class BaseActivity extends AppCompatActivity {
-FirebaseAuth mAuth;
-FirebaseDatabase database;
+    FirebaseAuth mAuth;
+    FirebaseDatabase database;
+    public String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
