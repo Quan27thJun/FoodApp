@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation("com.google.gms:google-services:4.4.1")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
