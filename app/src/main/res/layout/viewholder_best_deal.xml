@@ -50,7 +50,6 @@
                 android:layout_marginBottom="8dp"
                 android:text="4"
                 android:textColor="@color/blue_grey"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/titleTxt" />
 
@@ -58,11 +57,11 @@
                 android:id="@+id/imageView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/star"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/starTxt"
                 app:layout_constraintStart_toEndOf="@+id/starTxt"
-                app:layout_constraintTop_toTopOf="@+id/starTxt"
-                tools:src="@drawable/star" />
+                app:layout_constraintTop_toTopOf="@+id/starTxt" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -80,7 +79,7 @@
                 android:id="@+id/timeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time"
+                android:text="time"
                 app:layout_constraintBottom_toBottomOf="@+id/starTxt"
                 app:layout_constraintEnd_toStartOf="@+id/textView15"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
@@ -93,7 +92,7 @@
                 android:layout_marginStart="8dp"
                 app:tint="@color/red"
                 app:layout_constraintBottom_toBottomOf="@+id/timeTxt"
-                app:layout_constraintStart_toStartOf="@+id/timeTxt"
+                app:layout_constraintStart_toEndOf="@+id/timeTxt"
                 app:layout_constraintTop_toTopOf="@+id/timeTxt"
                 app:srcCompat="@drawable/time" />
 

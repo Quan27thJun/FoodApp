@@ -232,7 +232,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="wrap_content"
+                android:minHeight="300dp">
 
                 <ProgressBar
                     android:id="@+id/progressBarBestFood"
@@ -248,6 +249,9 @@
                     android:id="@+id/bestFoodView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

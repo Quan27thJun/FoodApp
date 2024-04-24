@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "137684899387",
-    "project_id": "foodapp-fb70a",
-    "storage_bucket": "foodapp-fb70a.appspot.com"
+    "project_number": "1091460927278",
+    "firebase_url": "https://databasefoodapp-863b7-default-rtdb.firebaseio.com",
+    "project_id": "databasefoodapp-863b7",
+    "storage_bucket": "databasefoodapp-863b7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:137684899387:android:85b08d83a6c780cce66e1e",
+        "mobilesdk_app_id": "1:1091460927278:android:7a1df128c30a62e1dff4bf",
         "android_client_info": {
           "package_name": "com.example.foodapp"
         }
@@ -15,26 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCBJxME-lGPBWNa53mLtPyKSUp-BkwsvdM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:137684899387:android:3e9430e81a546e2de66e1e",
-        "android_client_info": {
-          "package_name": "com.example.myapplication"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCBJxME-lGPBWNa53mLtPyKSUp-BkwsvdM"
+          "current_key": "AIzaSyAkDajUzo_zRl7di44DiAc5YuKt7RGrCMg"
         }
       ],
       "services": {
