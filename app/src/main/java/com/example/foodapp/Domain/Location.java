@@ -1,4 +1,4 @@
-package Domain;
+package com.example.foodapp.Domain;
 
 public class Location {
     private int Id;

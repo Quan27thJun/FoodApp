@@ -22,13 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import Adapter.BestFoodsAdapter;
-import Adapter.CategoryAdapter;
-import Domain.Category;
-import Domain.Location;
-import Domain.Time;
-import Domain.Price;
-import Domain.Foods;
+import com.example.foodapp.Adapter.BestFoodsAdapter;
+import com.example.foodapp.Adapter.CategoryAdapter;
+import com.example.foodapp.Domain.Category;
+import com.example.foodapp.Domain.Location;
+import com.example.foodapp.Domain.Time;
+import com.example.foodapp.Domain.Price;
+import com.example.foodapp.Domain.Foods;
 
 public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;

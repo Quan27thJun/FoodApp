@@ -1,10 +1,10 @@
-package Domain;
+package com.example.foodapp.Domain;
 
-public class Time {
+public class Price {
     private int Id;
     private String Value;
 
-    public Time() {
+    public Price() {
     }
 
     @Override
@@ -13,18 +13,22 @@ public class Time {
     }
 
     public int getId() {
+
         return Id;
     }
 
     public void setId(int id) {
+
         Id = id;
     }
 
     public String getValue() {
+
         return Value;
     }
 
     public void setValue(String value) {
+
         Value = value;
     }
 }

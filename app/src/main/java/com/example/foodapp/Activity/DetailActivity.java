@@ -1,19 +1,12 @@
 package com.example.foodapp.Activity;
 
 import android.os.Bundle;
-import android.view.View;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityDetailBinding;
 
-import Domain.Foods;
+import com.example.foodapp.Domain.Foods;
 
 public class DetailActivity extends BaseActivity {
     ActivityDetailBinding binding;
