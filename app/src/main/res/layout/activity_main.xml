@@ -30,7 +30,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcom"
+                    android:text="Welcom to"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +38,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Store"
+                    android:text="Quan Store"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -263,6 +263,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Choose Category"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/blue_grey"
                 android:textSize="22dp"
                 android:textStyle="bold" />

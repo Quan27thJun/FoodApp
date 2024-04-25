@@ -1,7 +1,6 @@
-package Domain;
+package Adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.foodapp.R;
 
 import java.util.ArrayList;
+
+import Domain.Foods;
 
 public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.viewholder> {
     ArrayList<Foods> items;
