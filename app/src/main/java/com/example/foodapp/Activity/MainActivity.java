@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodapp.R;
 
 import com.example.foodapp.databinding.ActivityMainBinding;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        
         initLocation();
         initTime();
         initPrice();
@@ -61,6 +61,7 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void initBestFood() {
