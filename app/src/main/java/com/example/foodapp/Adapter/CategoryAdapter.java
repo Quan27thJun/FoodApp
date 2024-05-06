@@ -1,10 +1,13 @@
 package com.example.foodapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,13 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-
-import com.example.foodapp.Activity.ListFoodsActivity;
+import com.example.foodapp.Activity.ListFoodActivity;
+import com.example.foodapp.Domain.Category;
 import com.example.foodapp.R;
 
 import java.util.ArrayList;
 
-import com.example.foodapp.Domain.Category;
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewholder> {
     ArrayList<Category> items;
@@ -39,46 +43,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewho
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.viewholder holder, int position) {
         holder.titleTxt.setText(items.get(position).getName());
-        switch (position){
-            case 0:{
-                holder.pic.setBackgroundResource(R.drawable.cat_0_background);
-                break;
-            }
-            case 1:{
-                holder.pic.setBackgroundResource(R.drawable.cat_1_background);
-                break;
-            }
-            case 2:{
-                holder.pic.setBackgroundResource(R.drawable.cat_2_background);
-                break;
-            }
-            case 3:{
-                holder.pic.setBackgroundResource(R.drawable.cat_3_background);
-                break;
-            }
-            case 4:{
-                holder.pic.setBackgroundResource(R.drawable.cat_4_background);
-                break;
-            }
-            case 5:{
-                holder.pic.setBackgroundResource(R.drawable.cat_5_background);
-                break;
-            }
-            case 6:{
-                holder.pic.setBackgroundResource(R.drawable.cat_6_background);
-                break;
-            }
-            case 7:{
-                holder.pic.setBackgroundResource(R.drawable.cat_7_background);
-                break;
-            }
-        }
-        int drawableResourceId=context.getResources().getIdentifier(items.get(position).getImagePath(),"drawable",holder.itemView.getContext().getPackageName());
 
-        Glide.with(context).load(drawableResourceId).into(holder.pic);
+        float radius = 10f;
+        View decorView = ((Activity) holder.itemView.getContext()).getWindow().getDecorView();
+        ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
+        Drawable windowBackground = decorView.getBackground();
+
+        holder.blurView.setupWith(rootView, new RenderScriptBlur(holder.itemView.getContext())) // or RenderEffectBlur
+                .setFrameClearDrawable(windowBackground) // Optional
+                .setBlurRadius(radius);
+        holder.blurView.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        holder.blurView.setClipToOutline(true);
+
+        int drawableResourceId = holder.itemView.getResources()
+                .getIdentifier(items.get(position).getImagePath(), "drawable", context.getPackageName());
+
+
+        Glide.with(context)
+                .load(drawableResourceId)
+                .into(holder.pic);
+
         holder.itemView.setOnClickListener(v -> {
-            Intent intent=new Intent(context, ListFoodsActivity.class);
-            intent.putExtra("CategoryId", items.get(position).getId());
+            Intent intent=new Intent(context, ListFoodActivity.class);
+            intent.putExtra("CategoryId",items.get(position).getId());
             intent.putExtra("CategoryName",items.get(position).getName());
             context.startActivity(intent);
         });
@@ -92,10 +79,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewho
     public class viewholder extends RecyclerView.ViewHolder {
         TextView titleTxt;
         ImageView pic;
+        BlurView blurView;
         public viewholder(@NonNull View itemView) {
             super(itemView);
-            titleTxt=itemView.findViewById(R.id.catNameTxt);
+            titleTxt=itemView.findViewById(R.id.titleCatTxt);
             pic=itemView.findViewById(R.id.imgCat);
+            blurView = itemView.findViewById(R.id.blurView);
         }
     }
 }

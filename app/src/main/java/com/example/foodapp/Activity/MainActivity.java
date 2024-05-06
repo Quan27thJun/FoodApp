@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         binding.searchBtn.setOnClickListener(v -> {
             String text=binding.searchEdt.getText().toString();
             if(!text.isEmpty()){
-                Intent intent=new Intent(MainActivity.this, ListFoodsActivity.class);
+                Intent intent=new Intent(MainActivity.this, ListFoodActivity.class);
                 intent.putExtra("text", text);
                 intent.putExtra("isSearch",true);
                 startActivity(intent);
