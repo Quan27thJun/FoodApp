@@ -17,12 +17,12 @@ public class Foods implements Serializable {
     private String Title;
     private int numberInCart;
 
-    public Foods() {
-    }
-
     @Override
     public String toString() {
         return Title;
+    }
+
+    public Foods() {
     }
 
     public int getCategoryId() {
@@ -70,7 +70,7 @@ public class Foods implements Serializable {
     }
 
     public void setPrice(double price) {
-        Price = price;
+        this.Price = price;
     }
 
     public String getImagePath() {
@@ -118,7 +118,7 @@ public class Foods implements Serializable {
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.Title = title;
     }
 
     public int getNumberInCart() {

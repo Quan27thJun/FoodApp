@@ -1,21 +1,19 @@
 package com.example.foodapp.Activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapp.Adapter.CartAdapter;
-import com.example.foodapp.Helper.ChangeNumberItemsListener;
 import com.example.foodapp.Helper.ManagmentCart;
-import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityCartBinding;
+
+import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class CartActivity extends BaseActivity {
     private ActivityCartBinding binding;
@@ -31,29 +29,50 @@ public class CartActivity extends BaseActivity {
         setVariable();
         calculateCart();
         initList();
+        setBlurEffect();
+    }
+
+    private void setBlurEffect() {
+        float radius = 10f;
+        View decorView = (this).getWindow().getDecorView();
+        ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
+        Drawable windowBackground = decorView.getBackground();
+
+        binding.blurView.setupWith(rootView, new RenderScriptBlur(this)) // or RenderEffectBlur
+                .setFrameClearDrawable(windowBackground) // Optional
+                .setBlurRadius(radius);
+        binding.blurView.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        binding.blurView.setClipToOutline(true);
+
+        binding.blurView2.setupWith(rootView, new RenderScriptBlur(this)) // or RenderEffectBlur
+                .setFrameClearDrawable(windowBackground) // Optional
+                .setBlurRadius(radius);
+        binding.blurView2.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
+        binding.blurView2.setClipToOutline(true);
     }
 
     private void initList() {
         if(managmentCart.getListCart().isEmpty()){
             binding.emptyTxt.setVisibility(View.VISIBLE);
-            binding.scrollViewCart.setVisibility(View.GONE);
-        } else {
+            binding.scrollview.setVisibility(View.GONE);
+        }else{
             binding.emptyTxt.setVisibility(View.GONE);
-            binding.scrollViewCart.setVisibility(View.VISIBLE);
+            binding.scrollview.setVisibility(View.VISIBLE);
         }
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        binding.cardView.setLayoutManager(linearLayoutManager);
-        adapter=new CartAdapter(managmentCart.getListCart(), this, () -> calculateCart());
-        binding.cardView.setAdapter(adapter);
+
+        binding.cartView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        ManagmentCart managmentCart = new ManagmentCart(this);
+        adapter=new CartAdapter(managmentCart.getListCart(),managmentCart, () -> calculateCart());
+        binding.cartView.setAdapter(adapter);
     }
 
     private void calculateCart() {
-        double percentTax=0.02; //percent 2% tax
-        double delivery=10;     //10dollar
-        tax=Math.round(managmentCart.getTotalFee()*percentTax*100.0) / 100;
-        double total=Math.round((managmentCart.getTotalFee()+tax+delivery)*100)/100;
-        double itemTotal=Math.round(managmentCart.getTotalFee()*100)/100;
-        binding.totalFeeTxt.setText("$"+itemTotal);
+        double percentTax = 0.02;
+        double delivery = 10;
+        tax = Math.round(managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
+        double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100) / 100;
+        double itemTotal = Math.round(managmentCart.getTotalFee() * 100) / 100;
+        binding.totalFeeTxt.setText("$" + itemTotal);
         binding.taxTxt.setText("$"+tax);
         binding.deliveryTxt.setText("$"+delivery);
         binding.totalTxt.setText("$"+total);

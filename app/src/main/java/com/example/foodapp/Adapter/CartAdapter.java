@@ -1,7 +1,6 @@
 package com.example.foodapp.Adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
     private ManagmentCart managmentCart;
     ChangeNumberItemsListener changeNumberItemsListener;
 
-    public CartAdapter(ArrayList<Foods> list, Context context, ChangeNumberItemsListener changeNumberItemsListener) {
+    public CartAdapter(ArrayList<Foods> listItemSelected, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
         this.listItemSelected = listItemSelected;
-        managmentCart=new ManagmentCart(context);
+        this.managmentCart = managmentCart;
         this.changeNumberItemsListener = changeNumberItemsListener;
     }
 

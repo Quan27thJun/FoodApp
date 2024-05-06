@@ -1,34 +1,35 @@
 package com.example.foodapp.Domain;
 
 public class Price {
-    private int Id;
+    private int id;
     private String Value;
 
     public Price() {
     }
 
+    public Price(int id, String value) {
+        this.id = id;
+        Value = value;
+    }
+
     @Override
     public String toString() {
-        return Value;
+        return  Value ;
     }
 
     public int getId() {
-
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-
-        Id = id;
+        this.id = id;
     }
 
     public String getValue() {
-
         return Value;
     }
 
     public void setValue(String value) {
-
         Value = value;
     }
 }

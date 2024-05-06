@@ -1,7 +1,7 @@
 package com.example.foodapp.Domain;
 
 public class Time {
-    private int Id;
+    private int id;
     private String Value;
 
     public Time() {
@@ -9,15 +9,15 @@ public class Time {
 
     @Override
     public String toString() {
-        return Value;
+        return Value ;
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getValue() {

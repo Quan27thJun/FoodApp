@@ -1,15 +1,11 @@
 package com.example.foodapp.Activity;
 
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.foodapp.R;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,6 +22,7 @@ public class BaseActivity extends AppCompatActivity {
         database=FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
 
-        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 }

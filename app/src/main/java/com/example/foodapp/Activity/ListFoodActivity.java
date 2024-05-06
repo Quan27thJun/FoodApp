@@ -7,7 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.example.foodapp.Adapter.ListFoodAdapter;
+import com.example.foodapp.Domain.Foods;
 import com.example.foodapp.databinding.ActivityListFoodsBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,9 +17,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import com.example.foodapp.Adapter.ListFoodAdapter;
-import com.example.foodapp.Domain.Foods;
 
 public class ListFoodActivity extends BaseActivity {
     ActivityListFoodsBinding binding;
@@ -34,13 +32,7 @@ public class ListFoodActivity extends BaseActivity {
         setContentView(binding.getRoot());
         getIntentExtra();
         initList();
-        setVariable();
-        
     }
-
-    private void setVariable() {
-    }
-
 
     private void initList() {
         DatabaseReference myRef=database.getReference("Foods");
@@ -49,9 +41,10 @@ public class ListFoodActivity extends BaseActivity {
         Query query;
         if(isSearch){
             query=myRef.orderByChild("Title").startAt(searchText).endAt(searchText+'\uf8ff');
-        } else {
+        }else{
             query=myRef.orderByChild("CategoryId").equalTo(categoryId);
         }
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,11 +69,10 @@ public class ListFoodActivity extends BaseActivity {
     }
 
     private void getIntentExtra() {
-        categoryId=getIntent().getIntExtra("CategoryId", 0);
+        categoryId=getIntent().getIntExtra("CategoryId",0);
         categoryName=getIntent().getStringExtra("CategoryName");
         searchText=getIntent().getStringExtra("text");
-        isSearch=getIntent().getBooleanExtra("isSearch", false);
-
+        isSearch=getIntent().getBooleanExtra("isSearch",false);
         binding.titleTxt.setText(categoryName);
         binding.backBtn.setOnClickListener(v -> finish());
     }

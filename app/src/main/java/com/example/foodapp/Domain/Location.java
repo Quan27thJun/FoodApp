@@ -2,14 +2,19 @@ package com.example.foodapp.Domain;
 
 public class Location {
     private int Id;
-    private String loc;
-
-    public Location() {
-    }
+    private String Loc;
 
     @Override
     public String toString() {
-        return loc;
+        return  Loc ;
+    }
+
+    public Location(int id, String loc) {
+        Id = id;
+        Loc = loc;
+    }
+
+    public Location() {
     }
 
     public int getId() {
@@ -21,10 +26,10 @@ public class Location {
     }
 
     public String getLoc() {
-        return loc;
+        return Loc;
     }
 
     public void setLoc(String loc) {
-        this.loc = loc;
+        Loc = loc;
     }
 }
