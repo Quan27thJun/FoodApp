@@ -61,7 +61,6 @@ public class CartActivity extends BaseActivity {
         }
 
         binding.cartView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        ManagmentCart managmentCart = new ManagmentCart(this);
         adapter=new CartAdapter(managmentCart.getListCart(),managmentCart, () -> calculateCart());
         binding.cartView.setAdapter(adapter);
     }
@@ -69,9 +68,9 @@ public class CartActivity extends BaseActivity {
     private void calculateCart() {
         double percentTax = 0.02;
         double delivery = 10;
-        tax = Math.round(managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
-        double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100) / 100;
-        double itemTotal = Math.round(managmentCart.getTotalFee() * 100) / 100;
+        tax = (managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
+        double total = ((managmentCart.getTotalFee() + tax + delivery) * 100) / 100;
+        double itemTotal = (managmentCart.getTotalFee() * 100) / 100;
         binding.totalFeeTxt.setText("$" + itemTotal);
         binding.taxTxt.setText("$"+tax);
         binding.deliveryTxt.setText("$"+delivery);

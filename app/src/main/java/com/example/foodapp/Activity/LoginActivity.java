@@ -17,9 +17,13 @@ public class LoginActivity extends BaseActivity {
 
         setVariable();
 
+
     }
 
     private void setVariable() {
+        binding.signupBtn.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+        });
         binding.loginBtn.setOnClickListener(v -> {
             String email = binding.userEdt.getText().toString();
             String password = binding.passEdt.getText().toString();
