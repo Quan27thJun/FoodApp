@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.foodapp.databinding.ActivityIntroBinding;
 import com.example.foodapp.databinding.ActivitySignupBinding;
 
 public class SignupActivity extends BaseActivity {
@@ -22,6 +21,9 @@ public class SignupActivity extends BaseActivity {
     }
 
     private void setVariable() {
+        binding.loginBtn.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        });
         binding.signupBtn.setOnClickListener(v -> {
             String email = binding.userEdt.getText().toString();
             String password = binding.passEdt.getText().toString();

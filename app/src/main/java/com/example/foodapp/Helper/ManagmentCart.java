@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class ManagmentCart {
     private Context context;
     private TinyDB tinyDB;
+    private boolean isCouponApplied = false;
+
 
     public ManagmentCart(Context context) {
         this.context = context;
@@ -62,5 +64,32 @@ public class ManagmentCart {
         listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart()+1);
         tinyDB.putListObject("CartList",listItem);
         changeNumberItemsListener.change();
+    }
+    public boolean isCouponApplied() {
+        return isCouponApplied;
+    }
+    public void applyCoupon(double discountRate) {
+        ArrayList<Foods> listItem = getListCart();
+        for (int i = 0; i < listItem.size(); i++) {
+            // Áp dụng giảm giá cho mỗi mặt hàng trong giỏ hàng
+            double discountedPrice = listItem.get(i).getPrice() * (1 - discountRate);
+            listItem.get(i).setPrice(discountedPrice);
+        }
+        tinyDB.putListObject("CartList", listItem);
+        isCouponApplied = true;
+    }
+    public void cancelCoupon(double discountRate) {
+        if (isCouponApplied) {
+            // Khôi phục giá của các mặt hàng trong giỏ hàng về giá ban đầu
+            ArrayList<Foods> listItem = getListCart();
+            for (int i = 0; i < listItem.size(); i++) {
+                // Khôi phục giá ban đầu cho mỗi mặt hàng trong giỏ hàng
+                listItem.get(i).setPrice(listItem.get(i).getPrice() / (1 - discountRate));
+            }
+            tinyDB.putListObject("CartList", listItem);
+            // Cập nhật trạng thái là không áp dụng mã giảm giá
+            isCouponApplied = false;
+
+        }
     }
 }

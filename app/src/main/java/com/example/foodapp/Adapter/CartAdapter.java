@@ -1,11 +1,8 @@
 package com.example.foodapp.Adapter;
 
-import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,60 +19,46 @@ import com.example.foodapp.R;
 
 import java.util.ArrayList;
 
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
-
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
-    ArrayList<Foods> listItemSelected;
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+    private ArrayList<Foods> itemList;
     private ManagmentCart managmentCart;
-    ChangeNumberItemsListener changeNumberItemsListener;
+    private ChangeNumberItemsListener changeNumberItemsListener;
 
-    public CartAdapter(ArrayList<Foods> listItemSelected, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
-        this.listItemSelected = listItemSelected;
+    public CartAdapter(ArrayList<Foods> itemList, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
+        this.itemList = itemList;
         this.managmentCart = managmentCart;
         this.changeNumberItemsListener = changeNumberItemsListener;
     }
 
     @NonNull
     @Override
-    public CartAdapter.viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate= LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_cart,parent,false);
-        return new viewholder(inflate);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_cart, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartAdapter.viewholder holder, int position) {
-        float radius = 10f;
-        View decorView = ((Activity) holder.itemView.getContext()).getWindow().getDecorView();
-        ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
-        Drawable windowBackground = decorView.getBackground();
-
-        holder.blurView.setupWith(rootView, new RenderScriptBlur(holder.itemView.getContext())) // or RenderEffectBlur
-                .setFrameClearDrawable(windowBackground) // Optional
-                .setBlurRadius(radius);
-        holder.blurView.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
-        holder.blurView.setClipToOutline(true);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Foods currentItem = itemList.get(position);
 
         Glide.with(holder.itemView.getContext())
-                .load(listItemSelected.get(position).getImagePath())
+                .load(currentItem.getImagePath())
                 .transform(new CenterCrop(), new RoundedCorners(30))
                 .into(holder.pic);
 
-        holder.title.setText(listItemSelected.get(position).getTitle());
-        holder.feeEachItem.setText("$" + (listItemSelected.get(position).getNumberInCart() *listItemSelected.get(position).getPrice()));
-        holder.totalEachItem.setText(listItemSelected.get(position).getNumberInCart() + "* $"
-                + (listItemSelected.get(position).getPrice()));
-
-        holder.num.setText(String.valueOf(listItemSelected.get(position).getNumberInCart()));
+        holder.title.setText(currentItem.getTitle());
+        holder.feeEachItem.setText("$" + (currentItem.getNumberInCart() * currentItem.getPrice()));
+        holder.totalEachItem.setText(currentItem.getNumberInCart() + " * $" + currentItem.getPrice());
+        holder.num.setText(String.valueOf(currentItem.getNumberInCart()));
 
         holder.plusItem.setOnClickListener(v ->
-                managmentCart.plusNumberItem(listItemSelected, position, () -> {
+                managmentCart.plusNumberItem(itemList, position, () -> {
                     changeNumberItemsListener.change();
                     notifyDataSetChanged();
                 }));
 
         holder.minusItem.setOnClickListener(v ->
-                managmentCart.minusNumberItem(listItemSelected, position, () -> {
+                managmentCart.minusNumberItem(itemList, position, () -> {
                     changeNumberItemsListener.change();
                     notifyDataSetChanged();
                 }));
@@ -83,15 +66,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
 
     @Override
     public int getItemCount() {
-        return listItemSelected.size();
+        return itemList.size();
     }
 
-    public class viewholder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, feeEachItem, plusItem, minusItem, totalEachItem, num;
         ImageView pic;
-        BlurView blurView;
 
-        public viewholder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.titleTxt);
             pic = itemView.findViewById(R.id.pic);
@@ -100,7 +82,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
             plusItem = itemView.findViewById(R.id.plusBtn);
             minusItem = itemView.findViewById(R.id.minusBtn);
             num = itemView.findViewById(R.id.numTxt);
-            blurView = itemView.findViewById(R.id.blurView);
         }
     }
 }
