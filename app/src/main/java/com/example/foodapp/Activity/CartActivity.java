@@ -3,6 +3,7 @@ package com.example.foodapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,13 +30,9 @@ public class CartActivity extends BaseActivity {
 
     private void initList() {
         if (managmentCart.getListCart().isEmpty()) {
-            binding.emptyTxt.setVisibility(View.VISIBLE);
-            binding.scrollview.setVisibility(View.GONE);
-        } else {
             binding.emptyTxt.setVisibility(View.GONE);
             binding.scrollview.setVisibility(View.VISIBLE);
         }
-
         binding.cartView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CartAdapter(managmentCart.getListCart(), managmentCart, () -> {
         });
@@ -43,9 +40,26 @@ public class CartActivity extends BaseActivity {
     }
 
     private void setVariable() {
-        binding.backBtn.setOnClickListener(v -> finish());
-        binding.paymentBtn.setOnClickListener(v -> {
-            startActivity(new Intent(CartActivity.this, PaymentActivity.class));
+        binding.backBtn.setOnClickListener(v ->{
+            startActivity(new Intent(CartActivity.this,MainActivity.class));
         });
+        binding.paymentBtn.setOnClickListener(v -> {
+            if (!managmentCart.getListCart().isEmpty()) {
+                startActivity(new Intent(CartActivity.this, PaymentActivity.class));
+            } else {
+                Toast.makeText(this, "Your cart is empty. Please add some items before proceeding to payment.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    protected void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    private void updateUI() {
+        if (managmentCart.getListCart().isEmpty()) {
+            binding.emptyTxt.setVisibility(View.GONE);
+            binding.scrollview.setVisibility(View.VISIBLE);
+        }
     }
 }

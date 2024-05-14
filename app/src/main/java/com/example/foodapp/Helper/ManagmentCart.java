@@ -92,4 +92,10 @@ public class ManagmentCart {
 
         }
     }
+    public void clearCart() {
+        // Xóa tất cả các sản phẩm khỏi giỏ hàng
+        tinyDB.remove("CartList");
+        // Cập nhật lại trạng thái mã giảm giá
+        isCouponApplied = false;
+    }
 }

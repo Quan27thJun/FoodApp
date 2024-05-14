@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.foodapp.databinding.ActivityLoginBinding;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends BaseActivity {
@@ -30,7 +31,13 @@ public class LoginActivity extends BaseActivity {
             if (!email.isEmpty() && !password.isEmpty()){
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
                     if(task.isSuccessful()){
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            String userID = user.getUid();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("userID", userID);
+                            startActivity(intent);
+                        }
                     } else {
                         Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     }

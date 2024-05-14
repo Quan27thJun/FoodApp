@@ -1,5 +1,6 @@
 package com.example.foodapp.Activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -8,13 +9,19 @@ import android.view.ViewOutlineProvider;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodapp.Adapter.CartAdapter;
+import com.example.foodapp.Adapter.PaymentAdapter;
 import com.example.foodapp.Helper.ManagmentCart;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityPaymentBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import eightbitlab.com.blurview.RenderScriptBlur;
 
@@ -47,6 +54,10 @@ public class PaymentActivity extends BaseActivity {
         if (!address.isEmpty() && !phoneNumber.isEmpty()) {
             // Nếu đã nhập đủ, hiển thị thông báo đặt hàng thành công
             Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+            managmentCart.clearCart();
+            Intent intent = new Intent(PaymentActivity.this, CartActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             // Nếu chưa nhập đủ, hiển thị thông báo yêu cầu người dùng nhập địa chỉ và số điện thoại
             Toast.makeText(this, "Please enter your address and phone number", Toast.LENGTH_SHORT).show();
@@ -82,14 +93,14 @@ public class PaymentActivity extends BaseActivity {
         }
 
         binding.cartView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        adapter=new CartAdapter(managmentCart.getListCart(),managmentCart, () -> calculateCart());
+        adapter = new PaymentAdapter(managmentCart.getListCart(), managmentCart, () -> calculateCart());
         binding.cartView.setAdapter(adapter);
     }
 
     private void calculateCart() {
         double percentTax = 0.02;
         double delivery = 10;
-        tax = (managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
+        tax = Math.round(managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
         double total = ((managmentCart.getTotalFee() + tax + delivery) * 100) / 100;
         double itemTotal = (managmentCart.getTotalFee() * 100) / 100;
         binding.totalFeeTxt.setText("$" + itemTotal);
@@ -106,16 +117,29 @@ public class PaymentActivity extends BaseActivity {
 
     private void applyCoupon() {
         String couponCode = binding.code.getText().toString().trim();
-        // Kiểm tra nếu mã coupon không rỗng
         if (!couponCode.isEmpty()) {
-            // Kiểm tra mã coupon và áp dụng giảm giá tương ứng
-            // Ví dụ: Nếu mã là "ABC123", giảm giá 10%
-            if (couponCode.equals("ABC123")) {
-                // Áp dụng giảm giá vào giỏ hàng
-                managmentCart.applyCoupon(0.1); // Giảm giá 10%
-                // Cập nhật lại tổng tiền sau khi áp dụng mã giảm giá
-                calculateCart();
-            }
+            DatabaseReference couponsRef = FirebaseDatabase.getInstance().getReference().child("Coupons");
+            couponsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot couponSnapshot : dataSnapshot.getChildren()) {
+                        String couponValue = couponSnapshot.child("Value").getValue(String.class);
+                        if (couponCode.equals(couponValue)) {
+                            // Nếu mã giảm giá hợp lệ, áp dụng mã và cập nhật giỏ hàng
+                            double discountRate = 0.1; // Giảm giá 10%
+                            managmentCart.applyCoupon(discountRate);
+                            calculateCart();
+                            return;
+                        }
+                    }
+                    // Nếu không tìm thấy mã giảm giá, hiển thị thông báo cho người dùng
+                    Toast.makeText(PaymentActivity.this, "Invalid coupon code", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
         } else {
             // Kiểm tra xem có đang áp dụng mã giảm giá không
             if (managmentCart.isCouponApplied()) {
@@ -124,7 +148,6 @@ public class PaymentActivity extends BaseActivity {
                 // Cập nhật lại tổng tiền sau khi hủy áp dụng mã giảm giá
                 calculateCart();
             }
-
         }
     }
 }
